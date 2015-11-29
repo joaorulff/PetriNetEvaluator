@@ -1,6 +1,7 @@
 package us.com.formalMethods.main;
 
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import com.sun.javafx.scene.SceneHelper;
@@ -17,17 +18,43 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import us.com.formalMethods.petriNet.Marking;
 import us.com.formalMethods.petriNet.PetriNet;
+import us.com.formalMethods.util.ArrayUtil;
 import us.com.formalMethods.util.StringParser;
 import us.com.formalMethods.view.MainWindow;
 
 public class Main{
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		
 		
-		PetriNet pt = new PetriNet(3, 3);
-		Marking m = new Marking();
+		PetriNet pt = new PetriNet(3, 4);
+		Marking initialMarking = new Marking(4);
+		initialMarking.initializeMarking();
+		
+		/*ArrayList<Integer> otherArray = new ArrayList<>();
+		otherArray.add(2);
+		otherArray.add(0);
+		otherArray.add(0);
+		otherArray.add(0);
+		
+		ArrayList<Marking> test = new ArrayList<>();
+		
+		
+		Marking otherMarking = new Marking(4);
+		otherMarking.setMarking(otherArray);
+		
+		test.add(otherMarking);
+		
+		System.out.println(ArrayUtil.contains(test, initialMarking));*/
+		
+		
+		pt.reachabilityTree(initialMarking);
+		/*System.out.println("--------------------------------");
+		ArrayList<Marking> printArray = pt.markingsForReachability;
+		for (Marking marking : printArray) {
+			marking.printMarking();
+		}*/
 			
 		
 	}

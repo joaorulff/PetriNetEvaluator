@@ -3,6 +3,7 @@ package us.com.formalMethods.petriNet;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import us.com.formalMethods.util.ArrayUtil;
 import us.com.formalMethods.util.StringParser;
 
 public class PetriNet {
@@ -12,7 +13,11 @@ public class PetriNet {
 	int inputTable [][];
 	int outputTable [][];
 	
+	public ArrayList<Marking> markingsForReachability;
+	
 	public PetriNet(int numberOfTransitions, int numberOfPlaces){
+		
+		this.markingsForReachability = new ArrayList<>();
 		
 		this.in = new Scanner(System.in);
 		
@@ -106,6 +111,53 @@ public class PetriNet {
 			if(fireable) avaiableTransitions.add(i);
 		}
 		return avaiableTransitions;
+	}
+	
+	public Marking fireTransition(int transitionNumber, Marking m){
+		
+		if(m.getLength() != inputTable[0].length) {
+			System.out.println("Invalid Marking");
+			return null;
+		}
+		
+		ArrayList<Integer> oldMarking = m.getMarking();
+		ArrayList<Integer> newMarking = new ArrayList<>();
+		
+		for (int j = 0; j < inputTable[transitionNumber].length; j++) {
+			newMarking.add(oldMarking.get(j) - inputTable[transitionNumber][j] + outputTable[transitionNumber][j]);
+		}
+		
+		Marking newMarkingObject = new Marking(m.getLength());
+		newMarkingObject.setMarking(newMarking);
+		
+		return newMarkingObject;
+	}
+	
+	public void reachabilityTree (Marking root) throws InterruptedException{
+		
+		if(ArrayUtil.contains(markingsForReachability, root)){
+			System.out.println("Old");
+			return;
+		}else{
+			markingsForReachability.add(root);
+		}
+		
+		ArrayList<Integer> avaiableTransitions = this.avaiableTransitions(root);
+		root.printMarking();
+		
+		if(avaiableTransitions.size() == 0){
+			System.out.println("Dead end");
+			return;
+		}else{
+			for (Integer transition : avaiableTransitions) {
+				
+				System.out.println("Transition " + (transition+1)+ " fires");
+				Marking newMarking = fireTransition(transition, root);
+				Thread.sleep(100);
+				reachabilityTree(newMarking);
+			}
+		}
+		
 	}
 }
 
