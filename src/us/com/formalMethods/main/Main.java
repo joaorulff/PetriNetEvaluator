@@ -1,6 +1,9 @@
 package us.com.formalMethods.main;
 
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -23,13 +26,21 @@ import us.com.formalMethods.util.StringParser;
 import us.com.formalMethods.view.MainWindow;
 
 public class Main{
-	
-	
-	public static void main(String[] args) throws InterruptedException {
-		
-		
-		PetriNet pt = new PetriNet(3, 4);
-		Marking initialMarking = new Marking(4);
+
+
+	public static void main(String[] args) throws InterruptedException, IOException {
+        int places = 0;
+        int transitions = 0;
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Enter number of places:");
+        places = Integer.parseInt(br.readLine());
+        System.out.print("Enter number of transitions:");
+        transitions = Integer.parseInt(br.readLine());
+        //System.out.print(places + " " + transitions);
+
+		PetriNet pt = new PetriNet(transitions, places);
+		Marking initialMarking = new Marking(places);
+
 		initialMarking.initializeMarking();
 		
 		/*ArrayList<Integer> otherArray = new ArrayList<>();

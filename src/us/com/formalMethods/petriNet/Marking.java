@@ -1,6 +1,13 @@
 package us.com.formalMethods.petriNet;
 
+import us.com.formalMethods.util.StringParser;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class Marking {
 	
@@ -8,21 +15,37 @@ public class Marking {
 	private String label;
 	private ArrayList<Integer> marking;
 	private int length;
-	
+	private Scanner in;
 	public Marking(int length){
 		
 		this.length = length;
 		marking = new ArrayList<>();
-		
+		this.in = new Scanner(System.in);
 	}
 	
 	public void initializeMarking(){
-		
-		marking.add(2);
-		marking.add(0);
-		marking.add(0);
-		marking.add(0);
-		
+
+
+        boolean validInput = true;
+        String currentInput;
+
+        do{
+            if(!validInput){
+                    System.out.println("Wrong input! Insert it again");
+            }
+
+            System.out.print("Initial Marking: ");
+            currentInput = in.nextLine();
+            validInput = StringParser.parseInputStringFormat(currentInput, length);
+
+        }while(!validInput);
+
+        ArrayList<Integer> inputs = StringParser.parseInputString(currentInput, length);
+
+        for(int i = 0; i<inputs.size(); i++) {
+            marking.add(inputs.get(0));
+        }
+
 	}
 
 	public void printMarking(){
