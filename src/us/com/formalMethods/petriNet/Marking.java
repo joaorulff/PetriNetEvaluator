@@ -1,6 +1,13 @@
 package us.com.formalMethods.petriNet;
 
+import us.com.formalMethods.util.StringParser;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Scanner;
 
 public class Marking {
 	
@@ -8,15 +15,16 @@ public class Marking {
 	private String label;
 	private ArrayList<Integer> marking;
 	private int length;
-	
+	private Scanner in;
 	public Marking(int length){
 		
 		this.length = length;
 		marking = new ArrayList<>();
-		
+		this.in = new Scanner(System.in);
 	}
 	
 	public void initializeMarking(){
+
 		
 		marking.add(2);
 		marking.add(0);
