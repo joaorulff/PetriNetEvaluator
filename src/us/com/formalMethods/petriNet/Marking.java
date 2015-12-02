@@ -21,7 +21,7 @@ public class Marking {
 		marking.add(2);
 		marking.add(0);
 		marking.add(0);
-		marking.add(0);
+		
 		
 	}
 
@@ -55,15 +55,35 @@ public class Marking {
 	}
 	
 	public boolean compare(Marking m){
+		
 		ArrayList<Integer> mArray = m.getMarking();
 		
 		for (int i = 0; i < this.marking.size(); i++) {
+			//System.out.println("COMPARE: " + this.marking.get(i) + " --> " + mArray.get(i));
 			if(this.marking.get(i) != mArray.get(i)){
 				return false;
 			}
 		}
 		return true;
 	}
+	
+	public boolean equalOrGreater(Marking m){
+		
+		ArrayList<Integer> mArray = m.getMarking();
+		
+		for (int i = 0; i < this.marking.size(); i++) {
+			if(this.marking.get(i) < mArray.get(i)){
+				return false;
+			}
+		}
+		
+		for (int i = 0; i < this.marking.size(); i++) {
+			if(this.marking.get(i) > mArray.get(i)){
+				this.marking.set(i, 1000);
+			}
+		}
+		return true;
+	} 
 	
 	public int getElementFromMarking(int i){
 		return this.marking.get(i);

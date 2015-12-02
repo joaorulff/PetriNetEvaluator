@@ -18,5 +18,19 @@ public class ArrayUtil {
 		
 		return false;
 	}
+	
+	public static boolean equalOrGreaterThan (ArrayList<Marking> markings, Marking m){
+		
+		if(markings.size() == 0) return false;	
+		
+		for (Marking marking : markings) {
+			if(m.equalOrGreater(marking)){
+				return true;
+			}
+		}
+		
+		return false;
+		
+	}
 
 }

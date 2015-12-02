@@ -27,9 +27,8 @@ public class Main{
 	
 	public static void main(String[] args) throws InterruptedException {
 		
-		
-		PetriNet pt = new PetriNet(3, 4);
-		Marking initialMarking = new Marking(4);
+		PetriNet pt = new PetriNet(3, 3);
+		Marking initialMarking = new Marking(3);
 		initialMarking.initializeMarking();
 		
 		/*ArrayList<Integer> otherArray = new ArrayList<>();

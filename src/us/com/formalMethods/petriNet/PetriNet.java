@@ -133,6 +133,30 @@ public class PetriNet {
 		return newMarkingObject;
 	}
 	
+	public Marking fireTransitionForCoverability(int transitionNumber, Marking m){
+		
+		if(m.getLength() != inputTable[0].length) {
+			System.out.println("Invalid Marking");
+			return null;
+		}
+		
+		ArrayList<Integer> oldMarking = m.getMarking();
+		ArrayList<Integer> newMarking = new ArrayList<>();
+		
+		for (int j = 0; j < inputTable[transitionNumber].length; j++) {
+			if(oldMarking.get(j) == 1000){
+				newMarking.add(1000);
+			}else{
+			newMarking.add(oldMarking.get(j) - inputTable[transitionNumber][j] + outputTable[transitionNumber][j]);
+			}
+		}
+		
+		Marking newMarkingObject = new Marking(m.getLength());
+		newMarkingObject.setMarking(newMarking);
+		
+		return newMarkingObject;
+	}
+	
 	public void reachabilityTree (Marking root) throws InterruptedException{
 		
 		if(ArrayUtil.contains(markingsForReachability, root)){
@@ -155,6 +179,48 @@ public class PetriNet {
 				Marking newMarking = fireTransition(transition, root);
 				Thread.sleep(100);
 				reachabilityTree(newMarking);
+			}
+		}
+		
+	}
+	
+	public void coverabilityTree (Marking root) throws InterruptedException{
+		
+			
+		if(ArrayUtil.contains(markingsForReachability, root)){
+			System.out.println("OLD");
+			return;
+		}else{
+			if(ArrayUtil.equalOrGreaterThan(markingsForReachability, root)){
+				root.printMarking();
+			}
+		}
+		
+		this.markingsForReachability.add(root);
+		
+			
+			
+			System.out.println("-----------STACK-BEGIN-----------");
+			for (Marking marking : this.markingsForReachability) {
+				marking.printMarking();
+			}
+			System.out.println("-----------STACK-END-----------");
+		
+		
+		
+		ArrayList<Integer> avaiableTransitions = this.avaiableTransitions(root);
+		root.printMarking();
+		
+		if(avaiableTransitions.size() == 0){
+			System.out.println("Dead end");
+			return;
+		}else{
+			for (Integer transition : avaiableTransitions) {
+				
+				System.out.println("Transition " + (transition+1)+ " fires");
+				Marking newMarking = fireTransitionForCoverability(transition, root);
+				Thread.sleep(1000);
+				coverabilityTree(newMarking);
 			}
 		}
 		
